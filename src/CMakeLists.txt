@@ -1,9 +1,13 @@
 set(SRC_FILES
         msg_pool.cpp
-        msg.cpp)
+        msg.cpp
+        )
 set(HEAD_FILES
         msg_pool.h
-        msg.h)
+        msg.h
+        recv_msg_pool.h
+        msg_meta.h
+        )
 
 # set binary path and lib storage path for compiling process.
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)

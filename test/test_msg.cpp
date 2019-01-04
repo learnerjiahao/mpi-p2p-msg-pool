@@ -6,7 +6,7 @@
 #include "../src/msg.h"
 
 TEST(test1, test2) {
-    Msg<double, 3> msg(1);
+    Msg<double, 3> msg;
     std::cout << sizeof(msg) << typeid(msg).name() << "\n";
     long b = 2;
     std::cout << (typeid(b)==typeid(int));
