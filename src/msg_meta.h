@@ -10,7 +10,8 @@ template <typename T, std::size_t N>
 class MsgMeta {
 public:
     int opp_pid;
-    int ptag;
+//    int filter_tag;
+    int mpi_tag;
     std::vector<T> data;
     MsgMeta();
 };

@@ -11,42 +11,29 @@
 
 template <typename T, std::size_t N>
 class Msg {
-private:
-    bool usable = true;
+public:
     MPI_Request request_tag = MPI_REQUEST_NULL;
     MsgMeta<T, N> msgMeta;
 
 public:
     Msg();
-    bool isFree();
-    void makeUnusable();
-
-    MsgMeta<T, N> &getMsgData();
+    bool hadFinishedLastComm();
 };
 
 template<typename T, size_t N>
 Msg<T, N>::Msg() {}
 
 template<typename T, size_t N>
-bool Msg<T, N>::isFree() {
+bool Msg<T, N>::hadFinishedLastComm() {
     int tag = 0;
     MPI_Status status;
     MPI_Test(this->request_tag, &tag, &status);
-    if (tag == 1) { // todo status.MPI_ERROR status.tag status.MPI_TAG
+    if (tag == 1) {
+        this->msgMeta.mpi_tag = status.MPI_TAG;
+        this->msgMeta.opp_pid = status.MPI_SOURCE;
         return true;
     }
     return false;
 }
-
-template<typename T, size_t N>
-void Msg<T, N>::makeUnusable() {
-    this->usable = false;
-}
-
-template<typename T, size_t N>
-MsgMeta<T, N> &Msg<T, N>::getMsgData() {
-    return this->msgMeta;
-}
-
 
 #endif //MPI_MSG_POOL_MSG_H

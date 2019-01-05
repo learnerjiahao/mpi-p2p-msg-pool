@@ -6,6 +6,7 @@ set(HEAD_FILES
         msg_pool.h
         msg.h
         recv_msg_pool.h
+        send_msg_pool.h
         msg_meta.h
         )
 
