@@ -18,6 +18,7 @@ public:
 public:
     Msg();
     bool hadFinishedLastComm();
+    void putData(T *data);
 };
 
 template<typename T, size_t N>
@@ -27,13 +28,20 @@ template<typename T, size_t N>
 bool Msg<T, N>::hadFinishedLastComm() {
     int tag = 0;
     MPI_Status status;
-    MPI_Test(this->request_tag, &tag, &status);
+    MPI_Test(&this->request_tag, &tag, &status);
     if (tag == 1) {
         this->msgMeta.mpi_tag = status.MPI_TAG;
         this->msgMeta.opp_pid = status.MPI_SOURCE;
         return true;
     }
     return false;
+}
+
+template<typename T, size_t N>
+void Msg<T, N>::putData(T *data) {
+    for (int i = 0; i < N; ++i) {
+        msgMeta.data[i] = (*data)[i];
+    }
 }
 
 #endif //MPI_MSG_POOL_MSG_H

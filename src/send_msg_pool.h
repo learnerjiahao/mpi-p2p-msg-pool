@@ -10,7 +10,7 @@
 template <typename T, std::size_t N>
 class SendMsgPool : public MsgPool<T, N> {
 public:
-    int send(int dest_pid, int mpi_tag);
+    int send(const T *data, int dest_pid, int mpi_tag);
     SendMsgPool(std::size_t _init_cap, MPI_Comm _mpi_comm);
 private:
     int useMsg2Send(Msg<T, N> &msg, int dest_pid, int comm_tag);
@@ -21,7 +21,7 @@ SendMsgPool<T, N>::SendMsgPool(std::size_t _init_cap, MPI_Comm _mpi_comm)
                                 : MsgPool<T, N>(_init_cap, _mpi_comm) {}
 
 template<typename T, size_t N>
-int SendMsgPool<T, N>::send(int dest_pid, int mpi_tag) {
+int SendMsgPool<T, N>::send(const T *data, int dest_pid, int mpi_tag) {
     Msg<T, N> *p_msg = nullptr;
     for (Msg<T, N> &msg : this->msgs) {
         if (msg.hadFinishedLastComm()) {
@@ -30,8 +30,9 @@ int SendMsgPool<T, N>::send(int dest_pid, int mpi_tag) {
         }
     }
     if (p_msg == nullptr) {
-        p_msg = this->newMsg();
+        p_msg = &this->newMsg();
     }
+
     return this->useMsg2Send(*p_msg, dest_pid, mpi_tag);
 }
 

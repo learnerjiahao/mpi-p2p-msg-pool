@@ -22,3 +22,8 @@ add_subdirectory(src)
     MESSAGE(STATUS "TEST is enabled")
     add_subdirectory(test)
 #endif ()
+
+#if (EXAMPLE_BUILD_ENABLE_FLAG)
+    MESSAGE(STATUS "EXAMPLE is enabled")
+    add_subdirectory(example)
+#endif ()

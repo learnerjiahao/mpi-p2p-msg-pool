@@ -15,11 +15,11 @@ protected:
     Msg<T, N> &newMsg();
 
 public:
-    MsgPool(std::size_t _init_cap);
+    MsgPool(std::size_t _init_cap, MPI_Comm _mpi_comm);
 };
 
 template<typename T, size_t N>
-MsgPool<T, N>::MsgPool(std::size_t _init_cap) {
+MsgPool<T, N>::MsgPool(std::size_t _init_cap, MPI_Comm _mpi_comm) : mpi_comm(_mpi_comm) {
     this->msgs.resize(_init_cap);
 }
 

@@ -29,7 +29,7 @@ std::vector<MsgMeta<T, N>> RecvMsgPool<T, N>::recv(int src_pid, int comm_tag) {
         if (msg.hadFinishedLastComm()) {
             if ((src_pid == MPI_ANY_SOURCE || src_pid == msg.msgMeta.opp_pid)
                 && ((comm_tag == MPI_ANY_TAG || src_pid == msg.msgMeta.mpi_tag))) {
-                ret_msgs.push_back(msg);
+                ret_msgs.push_back(msg.msgMeta);
                 // msg can be reused to listen only when
                 // this msg had finished last communication and the data had been return
                 this->useMsg2Recv(msg, MPI_ANY_SOURCE, MPI_ANY_TAG);
